@@ -26,16 +26,22 @@ def operacoes():
           ''')
     
 def depositar(valor, saldo, extrato, /):
-    if valor <= 0:
-        print('Valor inválido, verifique o valor!!!')
-    else:
+    if valor > 0:
         saldo += valor
         extrato += f'Deposito  - R$ {valor:.2f}\n'
         print("Depósito realizado com sucesso")
+    else:
+        print('Valor inválido, verifique o valor!!!')
+        
 
     return saldo, extrato
 
-def sacar()
+def sacar(*, valor, saldo, limite_saque, valor_limite_saque, extrato):
+    if valor > 0:
+                 
+
+
+
 
 def visualizar_extrato(extrato):
     print("******************EXTRATO*************")
