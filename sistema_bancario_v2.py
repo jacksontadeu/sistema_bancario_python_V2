@@ -2,10 +2,11 @@
 import time
 
 
-valor = 0
+
 saldo = 0
-LIMITE_SAQUE = 3
+limite_saque = 3
 VALOR_LIMITE_SAQUE = 500
+total_sacado = 0
 extrato = ""
 
 def menu():
@@ -36,8 +37,22 @@ def depositar(valor, saldo, extrato, /):
 
     return saldo, extrato
 
-def sacar(*, valor, saldo, limite_saque, valor_limite_saque, extrato):
-    if valor > 0:
+def sacar(*, valor, saldo,total_sacado, limite_saque, valor_limite_saque, extrato):
+    if limite_saque == 0:
+        print("Número de saque excedido!!!")
+    elif total_sacado + valor >= valor_limite_saque:
+        print('Valor limite de saque diário foi excedido!!!')
+    elif valor > saldo :
+        print('Saldo insuficiente!!!')
+    elif valor > 0 :
+        saldo -= valor
+        limite_saque -= 1
+        total_sacado += valor
+        extrato += f'Saque - R$ {valor:.2f}\n'
+    else:
+        print('Valor inválido, por favor verifique!!!')
+    
+    return saldo, extrato, total_sacado, limite_saque
                  
 
 
@@ -74,8 +89,14 @@ while True:
             valor = float(input('Digite o valor do depósito: '))
             saldo, extrato = depositar(valor,saldo, extrato)
             print(f'Seu saldo é {saldo:.2f}')
+
         if op == 2:
-            print('Saque')
+            valor = float(input("Digite o valor para saque: "))
+            saldo, extrato,total_sacado,limite_saque = sacar( valor = valor,
+                                   saldo = saldo,total_sacado=total_sacado,
+                                   limite_saque= limite_saque,
+                                   valor_limite_saque= VALOR_LIMITE_SAQUE, extrato=extrato)
+            print(f'Seu saldo é {saldo:.2f}')
         
         if op ==3:
             visualizar_extrato(extrato)
