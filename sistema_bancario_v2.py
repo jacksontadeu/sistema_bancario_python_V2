@@ -8,6 +8,7 @@ limite_saque = 3
 VALOR_LIMITE_SAQUE = 500
 total_sacado = 0
 extrato = ""
+usuarios = []
 
 def menu():
     print("***********Sistema Bancário*************")
@@ -18,7 +19,6 @@ def menu():
           (4) Sair do sistema
           ''')
     
-
 def operacoes():
     print('''
           (1) Depositar
@@ -54,21 +54,32 @@ def sacar(*, valor, saldo,total_sacado, limite_saque, valor_limite_saque, extrat
     
     return saldo, extrato, total_sacado, limite_saque
                  
-
-
-
-
 def visualizar_extrato(extrato):
     print("******************EXTRATO*************")
     print(extrato)
     print(f"Saldo atual R$ {saldo:.2f}")
     print("***************************************")
+    
+def cadastrar_usuarios(usuarios):
+    cpf = input('Digite o CPF: ')
+    usuario = verificar_cpf(cpf, usuarios)
+    if usuario:
+        print("Usuário já cadastrado!!!")
+        return
+    elif len(cpf) == 11:
+        nome = input("Digite o nome do usuário: ")
+        data_nascimento = input('Digite a data de nascimento (dd/mm/aaaa): ')
+        endereco = input('Digite o endereco(logradouro,numero,bairro,cidade/estado): ')
+        usuarios.append({"nome": nome,"cpf":cpf,"data_nascimento":data_nascimento,"endereco": endereco})
+    else:
+        print('CPF inválido!!!')
+        return
+        
+    print('Usuário cadastrado com sucesso!!!')
 
-
-
-
-
-
+def verificar_cpf(cpf, usuarios):
+    usuario_filtrado = [usuario for usuario in usuarios if usuario["cpf"] == cpf]
+    return usuario_filtrado[0] if usuario_filtrado else None
 
 
 while True:
@@ -76,7 +87,7 @@ while True:
     opcao = int(input('Digite uma opção: '))
 
     if opcao == 1:
-        print('opcao 1')
+        cadastrar_usuarios(usuarios)
 
     if opcao == 2:
         print('opcao 2')
